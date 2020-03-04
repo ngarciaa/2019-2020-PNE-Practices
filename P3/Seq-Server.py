@@ -2,6 +2,7 @@ from Seq1 import Seq
 import socket
 import termcolor
 
+
 IP = "127.0.0.1"
 PORT = 8080
 
@@ -9,7 +10,7 @@ seq_list = [('ACGTAGCA'), ('ATGACAGA'), ('ATGACGAT'), ('TAGACTAG')]
 
 # Step 1 : Creating the socket
 ls = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
+ls.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 # Step 2 : Bind the socket to server's IP and PORT
 ls.bind ((IP, PORT))
 
@@ -53,13 +54,43 @@ while True :
         elif 'INFO' in msg :
             seq_info = Seq(msg[msg.find(" "):])
             termcolor.cprint('INFO', 'green')
-            response = seq_info.count()
-            print ('Sequence :', seq_info)
-            print ('Total length :', seq_info.len())
-            print (seq_info.count())
 
-            print (response , '\n')
+            count_base = ""
+            for base, count in seq_info.count().items() :
+                s_base = str(base) + ":" + str(count) + "(" + str(count/seq_info.len()*100) + "%)" + '\n'
+                count_base += s_base
+
+            response =('Sequence :'+ str(seq_info) +'\n' + 'Total length :'+ str(seq_info.len())+ '\n' + count_base)
+
+            print(response)
 
             cs.send(response.encode())
+
+        elif 'COMP' in msg :
+            seq_comp = Seq(msg[msg.find(" ")+1:])
+            termcolor.cprint('COMP', 'green')
+            response = seq_comp.complement() + '\n'
+            print (response)
+
+            cs.send(response.encode())
+
+        elif 'REV' in msg :
+            seq_rev = Seq(msg[msg.find(" ")+1:])
+            termcolor.cprint('REV', 'green')
+            response = seq_rev.reverse() + '\n'
+            print (response)
+
+            cs.send(response.encode())
+
+        elif 'GENE' in msg :
+            gene = str(msg[msg.find(" ") + 1:])
+            folder = "../Session-04 folder/"
+            n = Seq()
+            n.read_fasta(folder + gene)
+            response = str(n) + '\n'
+            print(response)
+
+            cs.send(response.encode())
+
 
         cs.close()
