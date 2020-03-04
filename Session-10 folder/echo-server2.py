@@ -1,8 +1,8 @@
 import socket
 import termcolor
 
-IP = "10.3.34.237"
-PORT = 8082
+IP = "10.3.34.139"
+PORT = 8081
 
 # Step 1 : Creating the socket
 ls = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
