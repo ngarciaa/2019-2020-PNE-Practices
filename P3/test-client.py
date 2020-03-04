@@ -1,19 +1,49 @@
 from Client0 import Client
 
-print ('PRACTICE 3 ; EXERCISE 7')
+PRACTICE = 3
+EXERCISE = 7
 
+print(f"-----| Practice {PRACTICE}, Exercise {EXERCISE} |------")
+
+# -- Parameters
 IP = "127.0.0.1"
-PORT = 8080
+PORT = 8081
 
-c = Client (IP, PORT)
+# -- Create a client object
+c = Client(IP, PORT)
+sequence_test = "ATGACTGACAG"
 
-print('Connections to SERVER at IP:', IP, 'and PORT', PORT)
+print("Connection to SERVER at", IP, ", PORT: ", PORT)
 
-print('Testing GET...')
-c.talk('GET 0')
-c.talk('GET 1')
-c.talk('GET 2')
-c.talk('GET 3')
-c.talk('GET 4')
+# TEST PING
+print("* Testing PING...")
+print(c.talk("PING"))
 
-print('Testing INFO...')
+# TEST GET
+print("* Testing GET...")
+print("GET 0:", c.talk("GET 0"))
+print("GET 1:", c.talk("GET 1"))
+print("GET 2:", c.talk("GET 2"))
+print("GET 3:", c.talk("GET 3"))
+print("GET 4:", c.talk("GET 4"))
+
+# TEST INFO
+print("* Testing INFO...")
+print(c.talk("INFO " + sequence_test))
+
+# TEST COMP
+print("* Testing COMP...")
+print("COMP " + sequence_test)
+print(c.talk("COMP " + sequence_test))
+
+# TEST REV
+print("* Testing REV...")
+print("REV " + sequence_test)
+print(c.talk("REV " + sequence_test))
+
+# TEST REV
+print("* Testing GENE...")
+files_list = ["U5", "ADA", "FRAT1", "FXN", "RNU6_269P"]
+for file in files_list:
+    print("GENE", file)
+    print(c.talk("GENE " + file))
