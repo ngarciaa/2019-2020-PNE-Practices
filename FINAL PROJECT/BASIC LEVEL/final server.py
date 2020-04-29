@@ -529,11 +529,11 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         else :
             self.send_header('Content-Type', 'text/html')
 
-        self.send_header('Content-Length', len(contents.encode()))
+        self.send_header('Content-Length', len(str.encode(contents)))
 
         self.end_headers()
 
-        self.wfile.write(contents.encode())
+        self.wfile.write(str.encode(contents))
 
         return
 
