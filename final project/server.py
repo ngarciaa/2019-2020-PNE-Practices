@@ -185,13 +185,13 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     listt_species = []
                     separate = self.path.split('&')
                     pair = separate[0].find('=')
-                    msg = separate[0][pair +1:]
+                    msg = separate[0][pair + 1:]
 
                     if msg == "":
                         for species in response:
                             name = species['display_name']
                             listt_species.append(name)
-                            dict_json = {'species' : listt_species}
+                            dict_json = {'species': listt_species}
                             contents = json.dumps(dict_json)
 
                     else:
@@ -203,7 +203,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                             dict_json = {'species': listt_species}
                             contents = json.dumps(dict_json)
 
-                else :
+                else:
                     contents = f"""
                                                                   <!DOCTYPE html>
                                                                   <html lang = "en">
@@ -249,23 +249,23 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 msg = self.path[pair + 1:]
                 ENDPOINT = '/info/assembly/'
 
-                if '&' in msg :
+                if '&' in msg:
                     argument = msg.split('&')
                     argument2 = argument[0]
-                else :
+                else:
                     argument2 = msg
 
                 response = karyotype(ENDPOINT, argument2)
 
                 if 'json=1' in list_resource[1]:
                     list_karyotype = []
-                    for chrom in response :
+                    for chrom in response:
                         list_karyotype.append(chrom)
-                        dict_json= {'karyotype' : list_karyotype}
+                        dict_json = {'karyotype': list_karyotype}
                         contents = json.dumps(dict_json)
 
 
-                else :
+                else:
                     contents = f"""
                                                                           <!DOCTYPE html>
                                                                           <html lang = "en">
@@ -302,11 +302,11 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 chrom = separate[1][pair2 + 1:]
                 response = chromosome_length(ENDPOINT, msg, chrom)
 
-                if 'json=1' in list_resource[1] :
-                    dict_json = {'Specie' : msg, 'Chromosome' : chrom , 'Length' : response}
+                if 'json=1' in list_resource[1]:
+                    dict_json = {'Specie': msg, 'Chromosome': chrom, 'Length': response}
                     contents = json.dumps(dict_json)
 
-                else :
+                else:
 
                     contents = f"""
                                                                                       <!DOCTYPE html>
@@ -319,7 +319,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                                                                                     """
                     contents += f"<p>The length of the chromosome is : {response} </p>"
                     contents += f"""
-    
+
                                                                        <a href="http://127.0.0.1:8080/">Main Page </a>
                                                                      </body>
                                                                    </html> """
@@ -334,10 +334,10 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 pair = self.path.find('=')
                 gene = self.path[pair + 1:]
 
-                if '&' in gene :
+                if '&' in gene:
                     argument = gene.split('&')
                     argument2 = argument[0]
-                else :
+                else:
                     argument2 = gene
 
                 response1 = gene_seq(argument2)
@@ -345,10 +345,10 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
 
                 if 'json=1' in list_resource[1]:
 
-                    dict_json = {'Sequence' : response2}
+                    dict_json = {'Sequence': response2}
                     contents = json.dumps(dict_json)
 
-                else :
+                else:
                     contents = f"""
                                         <!DOCTYPE html>
                                          <html lang = "en">
@@ -376,20 +376,22 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 pair = self.path.find('=')
                 gene = self.path[pair + 1:]
 
-                if '&' in gene :
+                if '&' in gene:
                     argument = gene.split('&')
                     argument2 = argument[0]
-                else :
+                else:
                     argument2 = gene
 
                 response = gene_info(ENDPOINT, argument2)
                 length = response['end'] - response['start']
 
                 if 'json=1' in list_resource[1]:
-                    dict_json = {'Gene' : argument2, 'Starting point':response['start'], 'Ending point': response['end'], 'Length' : length , 'ID':response['id'], 'Chromosome': response['seq_region_name']}
+                    dict_json = {'Gene': argument2, 'Starting point': response['start'],
+                                 'Ending point': response['end'], 'Length': length, 'ID': response['id'],
+                                 'Chromosome': response['seq_region_name']}
                     contents = json.dumps(dict_json)
 
-                else :
+                else:
 
                     contents = f"""
                                                         <!DOCTYPE html>
@@ -421,10 +423,10 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 pair = self.path.find('=')
                 gene = self.path[pair + 1:]
 
-                if '&' in gene :
+                if '&' in gene:
                     argument = gene.split('&')
                     argument2 = argument[0]
-                else :
+                else:
                     argument2 = gene
 
                 response1 = gene_seq(argument2)
@@ -436,14 +438,14 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
 
                 if 'json=1' in list_resource[1]:
                     list_bases = []
-                    for base in bases :
-                        calc = f"{base}: {round(seq.count_base(base)*(100/seq.len()),2)}%"
+                    for base in bases:
+                        calc = f"{base}: {round(seq.count_base(base) * (100 / seq.len()), 2)}%"
                         list_bases.append(calc)
 
-                    dict_json = {'Length' : seq.len(), 'Bases': list_bases}
+                    dict_json = {'Length': seq.len(), 'Bases': list_bases}
                     contents = json.dumps(dict_json)
 
-                else :
+                else:
                     contents = f"""
                                    <!DOCTYPE html>
                                    <html lang = "en">
@@ -457,7 +459,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                     contents += f"<p>The length of the gene {gene} is {seq.len()}</p>"
 
                     for base in bases:
-                        contents += f"<p> Base {base} : {round(seq.count_base(base)*(100/seq.len()),2)}% </p>"
+                        contents += f"<p> Base {base} : {round(seq.count_base(base) * (100 / seq.len()), 2)}% </p>"
 
                     contents += f"""
                                                          <a href="http://127.0.0.1:8080/">Main Page </a>
@@ -486,12 +488,13 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 if 'json=1' in list_resource[1]:
                     list_genes = []
 
-                    for gene in response :
+                    for gene in response:
                         list_genes.append(gene['external_name'])
 
-                    dict_json = {'Chromosome': chromo, 'Starting point' : start, 'Ending point' : end, 'Genes': list_genes}
+                    dict_json = {'Chromosome': chromo, 'Starting point': start, 'Ending point': end,
+                                 'Genes': list_genes}
                     contents = json.dumps(dict_json)
-                else :
+                else:
 
                     contents = f"""
                                                <!DOCTYPE html>
@@ -524,9 +527,9 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
 
         self.send_response(error_code)
 
-        if 'json=1' in list_resource :
+        if 'json=1' in list_resource:
             self.send_header('Content-Type', 'application/json')
-        else :
+        else:
             self.send_header('Content-Type', 'text/html')
 
         self.send_header('Content-Length', len(str.encode(contents)))
